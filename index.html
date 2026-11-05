@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>ぷるんの タイピング だいぼうけん</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- タイトル -->
+  <section id="screen-title" class="screen active">
+    <div class="title-wrap">
+      <div class="title-chara" id="title-chara"></div>
+      <h1 class="logo"><span class="logo-sub">ぷるんの</span>タイピング<br>だいぼうけん</h1>
+      <button class="btn btn-big btn-pink" data-go="mode">あそぶ</button>
+      <div class="title-menu">
+        <button class="btn btn-sub" data-go="dress">きせかえ</button>
+        <button class="btn btn-sub" data-go="stamps">スタンプ</button>
+        <button class="btn btn-sub" data-go="settings">せってい</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- モード選択 -->
+  <section id="screen-mode" class="screen">
+    <header class="bar"><button class="btn btn-back" data-go="title">もどる</button><h2>どっちで あそぶ？</h2><span></span></header>
+    <div class="mode-cards">
+      <button class="mode-card mode-ja" data-lang="ja">
+        <span class="mode-big">あいう</span>
+        <span class="mode-name">にほんご</span>
+        <span class="mode-desc">ローマじで うつよ</span>
+      </button>
+      <button class="mode-card mode-en" data-lang="en">
+        <span class="mode-big">ABC</span>
+        <span class="mode-name">えいご</span>
+        <span class="mode-desc">えいたんごを うつよ</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ステージ選択マップ -->
+  <section id="screen-map" class="screen">
+    <header class="bar">
+      <button class="btn btn-back" data-go="mode">もどる</button>
+      <h2 id="map-title">ステージを えらぼう</h2>
+      <span class="star-total">★ <b id="map-stars">0</b></span>
+    </header>
+    <div class="map" id="map"></div>
+    <div class="map-foot">
+      <button class="btn btn-hold" id="btn-admin"><span class="hold-fill"></span><span class="hold-label">おうちの かたへ（ながおし）</span></button>
+    </div>
+  </section>
+
+  <!-- ゲーム -->
+  <section id="screen-game" class="screen">
+    <header class="bar game-bar">
+      <button class="btn btn-back" id="btn-quit">やめる</button>
+      <h2 id="game-title"></h2>
+      <div class="game-stats">
+        <span class="stat"><i>じかん</i><b id="game-time">0.0</b></span>
+        <span class="stat"><i>ミス</i><b id="game-miss">0</b></span>
+      </div>
+    </header>
+    <div class="scene" id="scene">
+      <div class="scene-bg" id="scene-bg"></div>
+      <div class="runner" id="runner"><div class="chara" id="game-chara"></div></div>
+      <div class="countdown" id="countdown"></div>
+    </div>
+    <div class="prompt" id="prompt">
+      <div class="prompt-count" id="prompt-count"></div>
+      <div class="prompt-kana" id="prompt-kana"></div>
+      <div class="prompt-text" id="prompt-text"></div>
+      <div class="prompt-romaji" id="prompt-romaji"></div>
+      <div class="ime-warn hidden" id="ime-warn">にゅうりょくを「えいすう（A）」に きりかえてね</div>
+    </div>
+    <div class="guide" id="guide">
+      <div class="finger-label" id="finger-label"></div>
+      <div class="guide-row">
+        <div class="keyboard" id="keyboard"></div>
+      </div>
+      <div class="hands" id="hands"></div>
+    </div>
+  </section>
+
+  <!-- リザルト -->
+  <section id="screen-result" class="screen">
+    <div class="result-card">
+      <h2 class="result-title">ゴール！</h2>
+      <div class="result-chara" id="result-chara"></div>
+      <div class="result-stars" id="result-stars"><span>★</span><span>★</span><span>★</span></div>
+      <dl class="result-data">
+        <div><dt>じかん</dt><dd id="res-time"></dd></div>
+        <div><dt>せいかくさ</dt><dd id="res-acc"></dd></div>
+        <div><dt>ミス</dt><dd id="res-miss"></dd></div>
+      </dl>
+      <p class="result-hint" id="res-hint"></p>
+      <div class="result-rewards" id="res-rewards"></div>
+      <div class="result-btns">
+        <button class="btn btn-sub" id="btn-retry">もういちど</button>
+        <button class="btn btn-pink" id="btn-next">つぎへ</button>
+        <button class="btn btn-sub" id="btn-tomap">マップへ</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- きせかえ -->
+  <section id="screen-dress" class="screen">
+    <header class="bar"><button class="btn btn-back" data-go="title">もどる</button><h2>きせかえ</h2><span class="star-total">★ <b id="dress-stars">0</b></span></header>
+    <div class="dress-wrap">
+      <div class="dress-preview" id="dress-preview"></div>
+      <div class="dress-list" id="dress-list"></div>
+    </div>
+  </section>
+
+  <!-- スタンプ -->
+  <section id="screen-stamps" class="screen">
+    <header class="bar"><button class="btn btn-back" data-go="title">もどる</button><h2>スタンプ・しょうごう</h2><span id="stamp-count"></span></header>
+    <div class="stamp-list" id="stamp-list"></div>
+  </section>
+
+  <!-- 設定 -->
+  <section id="screen-settings" class="screen">
+    <header class="bar"><button class="btn btn-back" data-go="title">もどる</button><h2>せってい</h2><span></span></header>
+    <div class="settings">
+      <label class="set-row"><span>ローマじを ひょうじ</span><input type="checkbox" id="set-romaji"><i class="toggle"></i></label>
+      <label class="set-row"><span>キーボードを ひょうじ</span><input type="checkbox" id="set-keyboard"><i class="toggle"></i></label>
+      <label class="set-row"><span>ゆびの ガイド</span><input type="checkbox" id="set-finger"><i class="toggle"></i></label>
+      <label class="set-row"><span>こうかおん</span><input type="checkbox" id="set-sound"><i class="toggle"></i></label>
+      <label class="set-row"><span>おとの おおきさ</span><input type="range" id="set-volume" min="0" max="1" step="0.1"></label>
+      <p class="set-note">タブレットなどの タッチ がめんでは、キーボードは いつも ひょうじされます（タップして にゅうりょく できます）。</p>
+      <button class="btn btn-danger" id="btn-reset">きろくを ぜんぶ けす</button>
+    </div>
+  </section>
+
+  <!-- 単語追加（おうちの方向け） -->
+  <section id="screen-custom" class="screen">
+    <header class="bar"><button class="btn btn-back" data-go="map">もどる</button><h2>オリジナル問題の登録</h2><span></span></header>
+    <div class="custom-wrap">
+      <p class="custom-note">お子さま向けのオリジナル問題を登録できます。登録した問題は、マップの「じぶんの もんだい」で遊べます。データはこの端末のブラウザ内にのみ保存されます。</p>
+      <form class="custom-form" id="custom-form">
+        <label>言語
+          <select id="cu-lang"><option value="ja">日本語</option><option value="en">英語</option></select>
+        </label>
+        <label>表示する文字<input id="cu-text" maxlength="30" placeholder="例：遠足 / apple" required></label>
+        <label id="cu-kana-wrap">読み（ひらがな・カタカナ）<input id="cu-kana" maxlength="40" placeholder="例：えんそく"></label>
+        <p class="custom-error" id="cu-error"></p>
+        <button class="btn btn-pink" type="submit">登録する</button>
+      </form>
+      <h3>登録済みの問題</h3>
+      <ul class="custom-list" id="custom-list"></ul>
+    </div>
+  </section>
+
+  <!-- 難易度選択（モーダル） -->
+  <div class="modal hidden" id="modal-diff">
+    <div class="modal-card">
+      <h3 id="diff-title"></h3>
+      <div class="diff-btns" id="diff-btns"></div>
+      <button class="btn btn-sub" id="diff-cancel">やめる</button>
+    </div>
+  </div>
+
+  <!-- 確認（モーダル） -->
+  <div class="modal hidden" id="modal-confirm">
+    <div class="modal-card">
+      <p id="confirm-msg"></p>
+      <div class="confirm-btns">
+        <button class="btn btn-sub" id="confirm-no">いいえ</button>
+        <button class="btn btn-pink" id="confirm-yes">はい</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast hidden" id="toast"></div>
+</div>
+
+<script src="js/kana.js"></script>
+<script src="js/words.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/sound.js"></script>
+<script src="js/character.js"></script>
+<script src="js/keyboard.js"></script>
+<script src="js/scenery.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
